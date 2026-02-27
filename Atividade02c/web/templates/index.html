@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sistema de Irrigação IoT</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        .led {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 10px auto;
+        }
+
+        .vermelho { background-color: red; }
+        .verde { background-color: green; }
+        .azul { background-color: blue; }
+        .apagado { background-color: gray; }
+
+        .bomba-on { color: green; font-weight: bold; }
+        .bomba-off { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>Sistema de Irrigação Automática (Simulação IoT)</h1>
+
+    <form method="POST">
+        <label>Definir Umidade (%):</label><br><br>
+        <input type="number" name="umidade" min="0" max="100" value="{{ umidade }}">
+        <br><br>
+        <button type="submit">Atualizar</button>
+        <button type="submit" name="simular">Simular Valor Aleatório</button>
+    </form>
+
+    <h2>Leitura do Sensor: {{ umidade }}%</h2>
+
+    <h3>Estado do Solo: {{ estado }}</h3>
+
+    <div class="led {% if cor_led %}{{ cor_led }}{% else %}apagado{% endif %}"></div>
+
+    <h3>
+        Bomba:
+        {% if bomba %}
+            <span class="bomba-on">LIGADA</span>
+        {% else %}
+            <span class="bomba-off">DESLIGADA</span>
+        {% endif %}
+    </h3>
+
+</body>
+</html>
