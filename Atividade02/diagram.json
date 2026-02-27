@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "author": "Erico Marin",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp32",
+      "top": 10,
+      "left": -100,
+      "attrs": { "env": "micropython-20231227-v1.22.0" }
+    },
+    {
+      "type": "wokwi-soil-moisture-sensor",
+      "id": "sensor_umidade",
+      "top": -40,
+      "left": -350,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_vermelho",
+      "top": -140,
+      "left": 220,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_verde",
+      "top": -60,
+      "left": 220,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_azul",
+      "top": 20,
+      "left": 220,
+      "attrs": { "color": "blue" }
+    },
+    {
+      "type": "wokwi-relay-module",
+      "id": "rele_bomba",
+      "top": 115.4,
+      "left": 28.8,
+      "attrs": {}
+    },
+    {
+      "type": "board-ssd1306",
+      "id": "display_oled",
+      "top": 243.14,
+      "left": 144.23,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [ "esp32:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp32:RX", "$serialMonitor:TX", "", [] ],
+
+    [ "sensor_umidade:VCC", "esp32:3V3", "red", [] ],
+    [ "sensor_umidade:GND", "esp32:GND.1", "black", [] ],
+    [ "sensor_umidade:AO", "esp32:34", "green", [] ],
+
+    [ "led_vermelho:A", "esp32:26", "red", [] ],
+    [ "led_vermelho:C", "esp32:GND.2", "black", [] ],
+
+    [ "led_verde:A", "esp32:27", "green", [] ],
+    [ "led_verde:C", "esp32:GND.2", "black", [] ],
+
+    [ "led_azul:A", "esp32:14", "blue", [] ],
+    [ "led_azul:C", "esp32:GND.2", "black", [] ],
+
+    [ "rele_bomba:VCC", "esp32:3V3", "red", [] ],
+    [ "rele_bomba:GND", "esp32:GND.1", "black", [] ],
+    [ "rele_bomba:IN", "esp32:25", "orange", [] ],
+
+    [ "display_oled:SCL", "esp32:22", "green", [] ],
+    [ "display_oled:SDA", "esp32:21", "blue", [] ],
+    [ "display_oled:GND", "esp32:GND.2", "black", [] ],
+    [ "display_oled:VCC", "esp32:3V3", "red", [] ]
+  ],
+  "dependencies": {}
+}
