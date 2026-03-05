@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dimmer IoT - Simulação</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #111;
+            color: white;
+        }
+
+        .lampada {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 20px auto;
+            background: yellow;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px yellow;
+        }
+
+        .rele {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .on {
+            background: green;
+        }
+
+        .off {
+            background: red;
+        }
+
+        input[type=range] {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Simulador Dimmer IoT</h1>
+
+    <div class="lampada" id="lampada"></div>
+
+    <h2 id="intensidade">Intensidade: 0%</h2>
+    <h3 id="consumo">Consumo: 0W</h3>
+
+    <input type="range" min="0" max="100" value="0" id="slider">
+
+    <div id="rele" class="rele off">Relé: OFF</div>
+
+<script>
+    const slider = document.getElementById("slider");
+    const lampada = document.getElementById("lampada");
+    const intensidadeTxt = document.getElementById("intensidade");
+    const consumoTxt = document.getElementById("consumo");
+    const releDiv = document.getElementById("rele");
+
+    slider.addEventListener("input", function() {
+        fetch("/atualizar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ valor: slider.value })
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            intensidadeTxt.innerText = "Intensidade: " + data.intensidade + "%";
+            consumoTxt.innerText = "Consumo: " + data.consumo + "W";
+
+            // brilho visual
+            lampada.style.opacity = data.intensidade / 100;
+            lampada.style.boxShadow = "0 0 " + (data.intensidade) + "px yellow";
+
+            // estado do relé
+            if(data.rele){
+                releDiv.classList.remove("off");
+                releDiv.classList.add("on");
+                releDiv.innerText = "Relé: ON";
+            } else {
+                releDiv.classList.remove("on");
+                releDiv.classList.add("off");
+                releDiv.innerText = "Relé: OFF";
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
